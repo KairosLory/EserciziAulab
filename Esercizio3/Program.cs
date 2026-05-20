@@ -11,8 +11,8 @@
                 for (int i = 0; i < length; i++)
                 {
                     Console.WriteLine($"Inserisci il valore in posizione {i}");
-                    yourArray[i] = (T)Convert.ChangeType(Console.ReadLine(), typeof(T));
-                }
+                    yourArray[i] = (T)Convert.ChangeType(Console.ReadLine(), typeof(T)); // Per semplicità nell'esercizio non ho gestito il caso in cui l'utente possa inserire un dato diverso da quello che ha selezionato!
+            }
 
             return yourArray;
         }

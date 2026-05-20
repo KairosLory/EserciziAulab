@@ -1,8 +1,10 @@
-﻿namespace Esercizio4
+﻿using System.Numerics;
+
+namespace Esercizio5
 {
     internal class Program
     {
-        static T[] BuildYourOwnArray<T>(int length) where T : IComparable<T>
+        static T[] BuildYourOwnArray<T>(int length) where T : INumber<T>
         {
             T[] yourArray = new T[length];
 
@@ -14,23 +16,23 @@
 
             return yourArray;
         }
-        // Metodo che stampa il valore maggiore in un array di qualsiasi tipo di dato.
-        // Il vincolo "where T : IComparable<T>" è necessario per poter utilizzare il metodo "CompareTo" e confrontare i valori all'interno dell'array senza un riferimento diretto al proprio tipo di dato.
-        static void PrintMaxValue<T>(T[] array) where T : IComparable<T>
+        // Messo il vincolo "INumber<T>" per permettere l'utilizzo del metodo "Convert.ToDouble" all'interno del ciclo.
+        // Ho settato la sum double, in quanto è il tipo di dato più ampio tra quelli fra cui può scegliere l'utente.
+        static void PrintSum<T>(T[] array) where T: INumber<T>
         {
-            T maxValue = array[0];
-            for (int i = 1; i < array.Length; i++)
+            double sum = 0;
+
+            foreach(var item in array)
             {
-                if (array[i].CompareTo(maxValue) > 0) // CompareTo restituisce un valore maggiore di 0 se "array[i]" è maggiore di "maxValue", 0 se sono uguali e un valore minore di 0 se "array[i]" è minore di "maxValue".
-                {
-                    maxValue = array[i];
-                }
+                sum += Convert.ToDouble(item);
             }
-            Console.WriteLine($"Il valore maggiore nell'array e': {maxValue}");
+
+            Console.WriteLine("La somma di tutti gli elementi viene: " + sum); ;
         }
         static void Main(string[] args)
         {
-            // ESERCIZIO: Creare un programma che stampi l'elemento maggiore in un array.
+            // ESERCIZIO: Creare un programma che chiede un numero all'utente per poi dichiarare un array con lunghezza pari al numero inserito.
+            // Successivamente riempire l'array chiedendo quali numeri inserire all'utente per poi calcolarne la sommatoria.
             int inputLenght; // Variabile che conterrà la lunghezza dell'array desiderata dall'utente. Viene dichiarata qui per essere utilizzata anche al di fuori del ciclo "while" sottostante.
 
             Console.WriteLine("Quanti elementi vuoi nel tuo array?");
@@ -53,31 +55,33 @@
             {
                 Console.WriteLine("Scelta non valida!\nSeleziona di che tipo vai i valori nell'array:" +
                                 "\na) int" +
-                                "\nb) float" +
-                                "\nc) double" +
-                                "\nd) string");
+                                "\nb) long" +
+                                "\nc) float" +
+                                "\nd) double");
                 userChoice = Console.ReadLine().Trim().ToLower();
             }
-            // Switch con annesso il metodo di stampa del valore maggiore nell'array. Non ho aggiunto un "default" perchè tutte le casistiche vengono precedentemente gestite dai cicli while.
-            switch(userChoice)
+            // Switch con annesso il metodo di stampa della somma degli elementi di ogni tipo di array.
+            // Non ho aggiunto un "default" perchè tutte le casistiche vengono precedentemente gestite dai cicli while.
+            switch (userChoice)
             {
                 case "a":
                     int[] intArray = BuildYourOwnArray<int>(inputLenght);
-                    PrintMaxValue(intArray);
+                    PrintSum(intArray);
                     break;
                 case "b":
-                    float[] floatArray = BuildYourOwnArray<float>(inputLenght);
-                    PrintMaxValue(floatArray);
+                    long[] longArray = BuildYourOwnArray<long>(inputLenght);
+                    PrintSum(longArray);
                     break;
                 case "c":
-                    double[] doubleArray = BuildYourOwnArray<double>(inputLenght);
-                    PrintMaxValue(doubleArray);
+                    float[] floatArray = BuildYourOwnArray<float>(inputLenght);   
+                    PrintSum(floatArray);
                     break;
                 case "d":
-                    string[] stringArray = BuildYourOwnArray<string>(inputLenght);
-                    PrintMaxValue(stringArray);
+                    double[] doubleArray = BuildYourOwnArray<double>(inputLenght);
+                    PrintSum(doubleArray);
                     break;
             }
+
 
             Console.ReadLine(); // Utilizzato nel debugging per fermare l'esecuzione del programma.
         }
